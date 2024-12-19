@@ -32,12 +32,19 @@ is_root() {
     fi
 }
 
+# Function to display the virtual environment
+parse_virtualenv() {
+    if [ -n "$VIRTUAL_ENV" ]; then
+        echo " ${ITALIC} ▸ ${ORANGE}${BOLD}[$(basename $VIRTUAL_ENV)]${RESET}"
+    fi
+}
+
 # Function to set the prompt
 set_prompt() {
     if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-        PS1="\$(parse_git_branch) ${BOLD}${BLUE}\u@\h ${RESET}${ITALIC}${CYAN}\w${RESET} \$(is_root) "
+        PS1="\$(parse_virtualenv)\$(parse_git_branch) ${BOLD}${BLUE}\u@\h ${RESET}${ITALIC}${CYAN}\w${RESET} \$(is_root) "
     else
-        PS1="${BOLD}${BLUE}\u@\h ${RESET}${ITALIC}${CYAN}\w${RESET} \$(is_root) "
+        PS1="\$(parse_virtualenv) ${BOLD}${BLUE}\u@\h ${RESET}${ITALIC}${CYAN}\w${RESET} \$(is_root) "
     fi
 }
 
